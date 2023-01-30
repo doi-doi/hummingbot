@@ -9,12 +9,7 @@ import pandas as pd
 from hummingbot.client.command.gateway_api_manager import GatewayChainApiManager, begin_placeholder_mode
 from hummingbot.client.config.config_helpers import refresh_trade_fees_config, save_to_yml
 from hummingbot.client.config.security import Security
-from hummingbot.client.settings import (
-    CLIENT_CONFIG_PATH,
-    GATEWAY_SSL_CONF_FILE,
-    AllConnectorSettings,
-    GatewayConnectionSetting,
-)
+from hummingbot.client.settings import CLIENT_CONFIG_PATH, AllConnectorSettings, GatewayConnectionSetting
 from hummingbot.client.ui.completer import load_completer
 from hummingbot.client.ui.interface_utils import format_df_for_printout
 from hummingbot.connector.connector_status import get_connector_status
@@ -116,36 +111,23 @@ class GatewayCommand(GatewayChainApiManager):
             bypass_source_check: bool = False
     ):
 
-        if not is_inside_docker and not bypass_source_check:
-            with begin_placeholder_mode(self):
-                while True:
-                    docker_check = await self.app.prompt(
-                        prompt="This command is designed to generate Gateway certificates. "
-                        "When you have installed Hummingbot from source, "
-                        "Do you want to continue? (Yes/No) >>> ",
-                    )
-                    if self.app.to_stop_config:
-                        return
-                    if docker_check in ["Y", "y", "Yes", "yes"]:
-                        break
-                    if docker_check in ["N", "n", "No", "no"]:
-                        return
-                    self.notify("Invalid input. Please try again or exit config [CTRL + x].\n")
+        # if not is_inside_docker and not bypass_source_check:
+        #     with begin_placeholder_mode(self):
+        #         while True:
+        #             docker_check = await self.app.prompt(
+        #                 prompt="This command is designed to generate Gateway certificates. "
+        #                 "When you have installed Hummingbot from source, "
+        #                 "Do you want to continue? (Yes/No) >>> ",
+        #             )
+        #             if self.app.to_stop_config:
+        #                 return
+        #             if docker_check in ["Y", "y", "Yes", "yes"]:
+        #                 break
+        #             if docker_check in ["N", "n", "No", "no"]:
+        #                 return
+        #             self.notify("Invalid input. Please try again or exit config [CTRL + x].\n")
 
         cert_path: str = get_gateway_paths(self.client_config_map).local_certs_path.as_posix()
-        current_path: str = self.client_config_map.certs.path
-        if not GATEWAY_SSL_CONF_FILE.exists() and not bypass_source_check:
-            self.notify("\nSSL configuration file not found. Please use `gateway/setup/generate_conf.sh` to generate it.")
-        elif GATEWAY_SSL_CONF_FILE.exists():
-            self.ssl_config_map.caCertificatePath = cert_path + "/ca_cert.pem"
-            self.ssl_config_map.certificatePath = cert_path + "/server_cert.pem"
-            self.ssl_config_map.keyPath = cert_path + "/server_key.pem"
-            save_to_yml(GATEWAY_SSL_CONF_FILE, self.ssl_config_map)  # Update SSL config file
-
-        if current_path != cert_path:
-            self.client_config_map.certs.path = cert_path
-            save_to_yml(CLIENT_CONFIG_PATH, self.client_config_map)  # Update config file
-
         if not from_client_password:
             if certs_files_exist(self.client_config_map):
                 self.notify(f"Gateway SSL certification files exist in {cert_path}.")

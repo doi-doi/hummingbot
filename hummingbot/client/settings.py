@@ -28,7 +28,7 @@ KEYFILE_PREFIX = "key_file_"
 KEYFILE_POSTFIX = ".yml"
 ENCYPTED_CONF_POSTFIX = ".json"
 DEFAULT_LOG_FILE_PATH = root_path() / "logs"
-DEFAULT_ETHEREUM_RPC_URL = "https://mainnet.coinalpha.com/hummingbot-test-node"
+# DEFAULT_ETHEREUM_RPC_URL = "https://mainnet.coinalpha.com/hummingbot-test-node"
 TEMPLATE_PATH = root_path() / "hummingbot" / "templates"
 CONF_DIR_PATH = root_path() / "conf"
 CLIENT_CONFIG_PATH = CONF_DIR_PATH / "conf_client.yml"
@@ -42,7 +42,7 @@ SCRIPT_STRATEGIES_MODULE = "scripts"
 SCRIPT_STRATEGIES_PATH = root_path() / SCRIPT_STRATEGIES_MODULE
 CERTS_PATH = root_path() / "certs"
 
-GATEWAY_SSL_CONF_FILE = root_path() / "gateway" / "conf" / "ssl.yml"
+# GATEWAY_SSL_CONF_FILE = root_path() / "gateway" / "conf" / "ssl.yml"
 
 # Certificates for securely communicating with the gateway api
 GATEAWAY_CA_CERT_PATH = CERTS_PATH / "ca_cert.pem"
