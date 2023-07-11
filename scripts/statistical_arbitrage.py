@@ -26,10 +26,10 @@ class StatisticalArbitrage(DirectionalStrategyBase):
     candles = [
         CandlesFactory.get_candle(connector=exchange,
                                   trading_pair=trading_pair,
-                                  interval="1m", max_records=150),
+                                  interval="1h", max_records=150),
         CandlesFactory.get_candle(connector=exchange,
                                   trading_pair=trading_pair_2,
-                                  interval="1m", max_records=150),
+                                  interval="1h", max_records=150),
     ]
     markets = {exchange: {trading_pair}}
 
