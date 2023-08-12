@@ -39,8 +39,8 @@ class PMMhShiftedMidPriceDynamicSpread(ScriptStrategyBase):
     # Trading conf
     order_refresh_time = 15
     order_amount = 7
-    trading_pair = "RLC-USDT"
-    exchange = "binance"
+    trading_pair = "XDC-USDT"
+    exchange = "kucoin"
 
     # Creating instance of the candles
     candles = CandlesFactory.get_candle(connector=exchange,
